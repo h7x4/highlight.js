@@ -292,11 +292,24 @@ export default function(hljs) {
     ATTRS,
     OPERATOR,
   ];
+
   ANTIQUOTE.contains = EXPRESSIONS;
+
+  const REPL = [
+    {
+      scope: 'meta.prompt',
+      match: /(?<=^\s*)nix-repl> /
+    },
+    {
+      scope: 'meta',
+      match: /(?<=\s):[a-z]+/,
+    },
+  ];
+
   return {
     name: 'Nix',
     aliases: [ "nixos" ],
     keywords: KEYWORDS,
-    contains: EXPRESSIONS
+    contains: EXPRESSIONS.concat(REPL),
   };
 }
