@@ -173,8 +173,48 @@ export default function(hljs) {
     ].map(b => `builtins\\.${b}`)),
   };
 
+  const IDENTIFIER_REGEX = '[A-Za-z_][A-Za-z0-9_\'-]*';
+
+  const LOOKUP_PATH = {
+    scope: 'symbol',
+    match: new RegExp(`<${IDENTIFIER_REGEX}(/${IDENTIFIER_REGEX})*>`),
+  };
+
+  const PATH_PIECE = "[A-Za-z0-9_\\+\\.-]+"
+  const PATH = {
+    scope: 'symbol',
+    match: new RegExp(`(\\.\\.|\\.|~)?/(${PATH_PIECE})?(/${PATH_PIECE})*(?=[\\s;])`),
+  };
+
+  const OPERATOR = {
+    scope: 'operator',
+    relevance: 0,
+    match: hljs.regex.either(...[
+      '==',
+      '=',
+      '\\+\\+',
+      '\\+',
+      '<=',
+      '<\\|',
+      '<',
+      '>=',
+      '>',
+      '->',
+      /(?<=(\s|[0-9\.]+))-/,
+      '//',
+      '/',
+      '!=',
+      '!',
+      '\\|\\|',
+      '\\|>',
+      '\\?',
+      '\\*',
+      '&&',
+    ]),
+  };
+
   const ATTRS = {
-    begin: /[a-zA-Z0-9-_]+(\s*=)/,
+    begin: new RegExp(`${IDENTIFIER_REGEX}(\\s*=)`),
     returnBegin: true,
     relevance: 0,
     contains: [
@@ -239,7 +279,10 @@ export default function(hljs) {
     hljs.C_BLOCK_COMMENT_MODE,
     BUILTINS,
     STRING,
-    ATTRS
+    LOOKUP_PATH,
+    PATH,
+    ATTRS,
+    OPERATOR,
   ];
   ANTIQUOTE.contains = EXPRESSIONS;
   return {
