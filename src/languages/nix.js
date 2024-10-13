@@ -277,6 +277,14 @@ export default function(hljs) {
     hljs.NUMBER_MODE,
     hljs.HASH_COMMENT_MODE,
     hljs.C_BLOCK_COMMENT_MODE,
+    hljs.COMMENT(
+      /\/\*\*(?!\/)/,
+      /\*\//,
+      {
+        subLanguage: 'markdown',
+        relevance: 0
+      }
+    ),
     BUILTINS,
     STRING,
     LOOKUP_PATH,
