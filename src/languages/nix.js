@@ -278,6 +278,11 @@ export default function(hljs) {
     match: /https?:\/\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,=]+/,
   };
 
+  const FUNCTION_PARAMS = {
+    scope: 'params',
+    match: new RegExp(`${IDENTIFIER_REGEX}\\s*:(?=\\s)`),
+  };
+
   const EXPRESSIONS = [
     hljs.NUMBER_MODE,
     hljs.HASH_COMMENT_MODE,
@@ -295,6 +300,7 @@ export default function(hljs) {
     URL,
     LOOKUP_PATH,
     PATH,
+    FUNCTION_PARAMS,
     ATTRS,
     OPERATOR,
   ];
